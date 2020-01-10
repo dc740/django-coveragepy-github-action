@@ -5,7 +5,7 @@ LABEL "com.github.actions.description"="Python Django Coverage GitHub Action"
 LABEL "com.github.actions.icon"="code"
 LABEL "com.github.actions.color"="black"
 
-# postgres setup
+# manual postgres fixes
 RUN set -eux; \
 	groupadd -r postgres --gid=999; \
 # https://salsa.debian.org/postgresql/postgresql-common/blob/997d842ee744687d99a2b2d95c1083a2615c79e8/debian/postgresql-common.postinst#L32-35
@@ -18,14 +18,19 @@ RUN mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgres
 
 
 RUN apt-get update \
-&& apt-get install -y --no-install-recommends git gcc libc-dev python3-dev build-essential libpq-dev postgresql postgresql-client \
+&& apt-get install -y --no-install-recommends git gcc libc-dev python3-dev build-essential libpq-dev postgresql-11 postgresql-client-11 \
 && apt-get purge -y --auto-remove \
 && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip virtualenv
+
+# setup postgresql database and user.
+# We don't expose the port, but allow all incomming connections
 USER postgres
 RUN    /etc/init.d/postgresql start \
-&& psql -c "CREATE USER ctest WITH PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
+&& psql -c "CREATE USER ctest WITH SUPERUSER PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/11/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
 USER root
 
 
