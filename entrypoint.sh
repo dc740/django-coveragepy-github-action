@@ -4,7 +4,7 @@ set -e
 echo "#################################################"
 echo "Starting ${GITHUB_WORKFLOW}:${GITHUB_ACTION}"
 
-export DATABASE_URL='postgresql://ctest:coveragetest123@127.0.0.1:5432/demo'
+
 APP=$1
 MIN_COVERAGE=$2
 
@@ -14,7 +14,7 @@ if [ -z "${APP}" ]; then
     VENV_NAME="virtenv1"
 else
     APP_LOCATION=$APP
-    VENV_NAME=$APP
+    VENV_NAME=virtenv_$APP
 fi
 
 if ! [ -e "${GITHUB_WORKSPACE}/${VENV_NAME}" ]; then
@@ -25,6 +25,8 @@ source "${GITHUB_WORKSPACE}/${VENV_NAME}/bin/activate"
 
 pip install -r requirements.txt
 
+export DATABASE_URL='postgresql://ctest:coveragetest123@127.0.0.1:5432/demo'
+echo "Base setup complete. Setting up a sample DB url"
 # This will automatically fail (set -e is set by default) if the tests fail, which is OK.
 coverage run --source "${APP_LOCATION}" manage.py test "${APP}"
 
