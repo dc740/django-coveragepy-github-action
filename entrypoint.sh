@@ -7,6 +7,15 @@ echo "Starting ${GITHUB_WORKFLOW}:${GITHUB_ACTION}"
 APP=$1
 MIN_COVERAGE=$2
 
+
+if ! [ -e "${GITHUB_WORKSPACE}/${VENV_NAME}" ]; then
+    python -m venv "${GITHUB_WORKSPACE}/${VENV_NAME}"
+fi
+
+source "${GITHUB_WORKSPACE}/${VENV_NAME}/bin/activate"
+
+pip install -r requirements.txt
+
 # This will automatically fail (set -e is set by default) if the tests fail, which is OK.
 coverage run --source "./$APP" manage.py test "$APP"
 

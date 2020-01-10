@@ -6,8 +6,7 @@ LABEL "com.github.actions.icon"="code"
 LABEL "com.github.actions.color"="black"
 
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip virtualenv
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
