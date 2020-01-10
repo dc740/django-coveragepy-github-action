@@ -23,9 +23,9 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip virtualenv
-RUN service postgresql start
 USER postgres
-RUN psql -c "CREATE USER ctest WITH PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
+RUN    /etc/init.d/postgresql start \
+&& psql -c "CREATE USER ctest WITH PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
 USER root
 
 
