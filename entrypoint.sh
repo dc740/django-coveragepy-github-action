@@ -5,11 +5,20 @@ echo "#################################################"
 echo "Starting ${GITHUB_WORKFLOW}:${GITHUB_ACTION}"
 
 APP=$1
+
 MIN_COVERAGE=$2
-VENV_NAME=$APP
+
+if [ -z "${APP}" ]; then
+    # coverage on everything when app is empty
+    APP_LOCATION="."
+    VENV_NAME="virtenv1"
+else
+    APP_LOCATION=$APP
+    VENV_NAME=$APP
+fi
 
 if ! [ -e "${GITHUB_WORKSPACE}/${VENV_NAME}" ]; then
-    python -m venv "${GITHUB_WORKSPACE}/${VENV_NAME}"
+    python3 -m venv "${GITHUB_WORKSPACE}/${VENV_NAME}"
 fi
 
 source "${GITHUB_WORKSPACE}/${VENV_NAME}/bin/activate"
@@ -17,11 +26,11 @@ source "${GITHUB_WORKSPACE}/${VENV_NAME}/bin/activate"
 pip install -r requirements.txt
 
 # This will automatically fail (set -e is set by default) if the tests fail, which is OK.
-coverage run --source "./$APP" manage.py test "$APP"
+coverage run --source "${APP_LOCATION}" manage.py test "${APP}"
 
 # Now get the coverage
 COVERAGE_RESULT=`coverage report | grep TOTAL | awk 'N=1 {print $NF}' | sed 's/%//g'`
-if [[ $COVERAGE_RESULT -gt $MIN_COVERAGE ]]:
+if [[ $COVERAGE_RESULT -gt $MIN_COVERAGE ]]; then
     echo ::set-output name=coverage_result::$COVERAGE_RESULT
 else
     echo "#################################################"
