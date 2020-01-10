@@ -4,8 +4,8 @@ set -e
 echo "#################################################"
 echo "Starting ${GITHUB_WORKFLOW}:${GITHUB_ACTION}"
 
+export DATABASE_URL='postgresql://ctest:coveragetest123@127.0.0.1:5432/demo'
 APP=$1
-
 MIN_COVERAGE=$2
 
 if [ -z "${APP}" ]; then
