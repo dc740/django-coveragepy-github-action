@@ -7,9 +7,9 @@ Github Action to integrate Coverage with Django on a Python Slim Docker image
 ### `django-app`
 
 The name of the Django app.
-Default: ``
+Default:
 
-### `minimum-coverage``
+### `minimum-coverage`
 
 Percentage of required coverage to consider it a valid commit.
 Default: `10`
@@ -21,6 +21,7 @@ Default: `10`
 Boolean value that indicates that the test run and coverage was successful.
 
 ## Example usage
+
 uses: actions/checkout@v2
 uses: actions/python-django-coverage-gitHub-action@v1
 with:
