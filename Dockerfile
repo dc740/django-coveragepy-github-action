@@ -6,7 +6,7 @@ LABEL "com.github.actions.icon"="code"
 LABEL "com.github.actions.color"="black"
 
 RUN apt-get update \
-&& apt-get install -y --no-install-recommends git gcc musl-dev postgresql-dev \
+&& apt-get install -y --no-install-recommends git gcc musl-dev libpq-dev \
 && apt-get purge -y --auto-remove \
 && rm -rf /var/lib/apt/lists/*
 
