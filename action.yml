@@ -1,0 +1,21 @@
+name: Python Django Coverage GitHub Action
+inputs:
+  django-app:
+    description: "Application"
+    required: false
+    default: ""
+  minimum-coverage:
+    description: "Minimum allowed code coverage"
+    required: false
+    default: "10"  
+description: 'Github Action to run tests and get coverage with Django on a Python Docker image'
+branding:
+  icon: box
+  color: gray-dark
+runs-on: ubuntu-latest
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+  - ${{ django-app }}
+  - ${{ minimum-coverage }}
