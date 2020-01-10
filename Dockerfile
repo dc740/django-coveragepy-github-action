@@ -11,9 +11,9 @@ RUN apt-get update \
 && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip virtualenv
-RUN sudo su - postgres
+USER postgres
 RUN psql -c "CREATE USER ctest WITH PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
-RUN exit
+USER root
 
 
 COPY entrypoint.sh /
