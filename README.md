@@ -1,6 +1,6 @@
-# Python Django Coverage GitHub Action
+# Python Django coverage.py GitHub Action
 
-Github Action to integrate Coverage with Django on a Python Slim Docker image
+Github Action to integrate Coverage.py with Django on every pull request. It comes with a bundled PostgreSQL DB to run the test against.
 
 ## Inputs
 
