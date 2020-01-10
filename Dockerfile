@@ -25,16 +25,13 @@ RUN apt-get update \
 RUN pip install --upgrade pip virtualenv
 
 # setup postgresql database and user.
+# We don't expose the port, but allow all incomming connections
 USER postgres
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/11/main/pg_hba.conf
-RUN echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
-RUN service postgresql restart 
-RUN psql -c "CREATE USER ctest WITH SUPERUSER PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
-RUN createdb -O ctest demo
+# configure the user for later. the service will be started in the entrypoint
+RUN  service postgresql start \
+&& psql -c "CREATE USER ctest WITH SUPERUSER PASSWORD 'coveragetest123';ALTER USER ctest CREATEDB;"
 USER root
 
-
-EXPOSE 5432
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
