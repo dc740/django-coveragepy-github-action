@@ -17,5 +17,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-  - ${{ django-app }}
-  - ${{ minimum-coverage }}
+  - ${{ inputs.django-app }}
+  - ${{ inputs.minimum-coverage }}
