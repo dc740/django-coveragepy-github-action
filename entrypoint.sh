@@ -6,7 +6,7 @@ echo "Starting ${GITHUB_WORKFLOW}:${GITHUB_ACTION}"
 
 APP=$1
 MIN_COVERAGE=$2
-
+VENV_NAME=$APP
 
 if ! [ -e "${GITHUB_WORKSPACE}/${VENV_NAME}" ]; then
     python -m venv "${GITHUB_WORKSPACE}/${VENV_NAME}"
