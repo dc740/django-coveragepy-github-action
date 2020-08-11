@@ -4,15 +4,20 @@ Github Action to integrate Coverage.py with Django on every pull request. It com
 
 ## Inputs
 
-### `django-app`
+### `django-apps`
 
-The name of the Django app.
+The name of the Django app or a comma separated list of Django apps you would like to cover `app1,app2`.
 Default:
 
 ### `minimum-coverage`
 
 Percentage of required coverage to consider it a valid commit.
 Default: `10`
+
+### `requirements-txt`
+
+Path to the requirements.txt file.
+Default: `requirements.txt`
 
 ## Outputs
 
@@ -22,8 +27,8 @@ Boolean value that indicates that the test run and coverage was successful.
 
 ## Example usage
 
-    uses: actions/checkout@v2
-    uses: actions/python-django-coverage-gitHub-action@v1
+    uses: tadomikikuto-bit/python-django-coverage-gitHub-action@master
     with:
-      django-app: 'sample_app'
+      django-apps: 'sample_app'
       minimum-coverage: '86'
+      requirements-txt: 'requirements.txt'
