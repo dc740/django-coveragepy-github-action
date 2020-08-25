@@ -21,9 +21,11 @@ Default: `10`
 Boolean value that indicates that the test run and coverage was successful.
 
 ## Example usage
-
-    uses: actions/checkout@v2
-    uses: actions/python-django-coverage-gitHub-action@v0.9
-    with:
-      django-app: 'sample_app'
-      minimum-coverage: '86'
+    steps:
+      - name: Checkout action
+        uses: actions/checkout@v2
+      - name: Django Coverage action
+        uses: actions/python-django-coverage-gitHub-action@0.9
+        with:
+          django-app: 'sample_app'
+          minimum-coverage: '86'
