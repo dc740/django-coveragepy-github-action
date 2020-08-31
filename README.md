@@ -19,6 +19,11 @@ Default: `10`
 Path to the requirements.txt file.
 Default: `requirements.txt`
 
+### `custom-command`
+
+if set the user will pass in a command to be ran instead of the defaut one.
+default:
+
 ## Outputs
 
 ### `success`
