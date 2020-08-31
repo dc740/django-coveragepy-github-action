@@ -12,6 +12,10 @@ inputs:
     description: "Path to the requirements.txt file"
     required: false
     default: "requirements.txt"
+  custom-command:
+    description: "custom test command"
+    required: false
+    default: ""
 description: 'Github Action to run tests and get coverage with Django on a Python Docker image'
 branding:
   icon: box
@@ -24,3 +28,4 @@ runs:
   - ${{ inputs.django-apps }}
   - ${{ inputs.minimum-coverage }}
   - ${{ inputs.requirements-txt }}
+  - ${{ inputs.custom-command }}

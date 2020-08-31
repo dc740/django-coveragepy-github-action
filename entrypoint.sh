@@ -7,7 +7,8 @@ echo "Starting ${GITHUB_WORKFLOW}:${GITHUB_ACTION}"
 
 APPS=$1
 MIN_COVERAGE=$2
-REQUIREMENTS_TEXT=$3
+REQUIREMENTS_TXT=$3
+CUSTOM_CMD=$4
 
 # start PostgreSQL
 service postgresql start
@@ -32,13 +33,18 @@ source "${GITHUB_WORKSPACE}/${VENV_NAME}/bin/activate"
 # upgrade pip to the latest version
 python -m pip install --upgrade pip
 
-pip install -r $REQUIREMENTS_TEXT
+pip install -r $REQUIREMENTS_TXT
 
 echo "Base setup complete. Setting up a sample DB url and running..."
 export DATABASE_URL='postgresql://ctest:coveragetest123@127.0.0.1:5432/demo'
 
-# This will automatically fail (set -e is set by default) if the tests fail, which is OK.
-coverage run --source="${APP_LOCATION}" -m pytest
+if [ -z "${CUSTOM_CMD}" ]; then
+    # This will automatically fail (set -e is set by default) if the tests fail, which is OK.
+    coverage run --source="${APP_LOCATION}" -m pytest
+else
+    # custom command
+    $CUSTOM_CMD
+fi
 
 # Now get the coverage
 COVERAGE_RESULT=`coverage report | grep TOTAL | awk 'N=1 {print $NF}' | sed 's/%//g'`
