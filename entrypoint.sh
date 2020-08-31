@@ -36,7 +36,7 @@ python -m pip install --upgrade pip
 pip install -r $REQUIREMENTS_TXT
 
 echo "Base setup complete. Setting up a sample DB url and running..."
-export DATABASE_URL='postgresql://ctest:coveragetest123@127.0.0.1:5432/demo'
+export DATABASE_URL='postgresql://ctest:coveragetest123@127.0.0.1:5432/ctest'
 
 if [ -z "${CUSTOM_CMD}" ]; then
     # This will automatically fail (set -e is set by default) if the tests fail, which is OK.
