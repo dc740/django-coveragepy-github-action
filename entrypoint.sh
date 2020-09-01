@@ -10,12 +10,9 @@ MIN_COVERAGE=$2
 REQUIREMENTS_TXT=$3
 CUSTOM_CMD=$4
 
-# start PostgreSQL
 service postgresql start
 
-# setup run settings
 if [ -z "${APPS}" ]; then
-    # coverage on everything when APPS is empty
     APP_LOCATION="."
     VENV_NAME="virtenv1"
 else
@@ -23,14 +20,12 @@ else
     VENV_NAME=virtenv_$APPS
 fi
 
-# init virtual environment
 if ! [ -e "${GITHUB_WORKSPACE}/${VENV_NAME}" ]; then
     python3 -m venv "${GITHUB_WORKSPACE}/${VENV_NAME}"
 fi
 
 source "${GITHUB_WORKSPACE}/${VENV_NAME}/bin/activate"
 
-# upgrade pip to the latest version
 python -m pip install --upgrade pip
 
 pip install -r $REQUIREMENTS_TXT
@@ -38,11 +33,11 @@ pip install -r $REQUIREMENTS_TXT
 echo "Base setup complete. Setting up a sample DB url and running..."
 export DATABASE_URL='postgresql://db_admin:8935a847a2dbdcdd78181d6342733913@127.0.0.1:5432/coverage_test'
 
+python3 manage.py migrate
+
 if [ -z "${CUSTOM_CMD}" ]; then
-    # This will automatically fail (set -e is set by default) if the tests fail, which is OK.
     coverage run --source="${APP_LOCATION}" -m pytest
 else
-    # custom command
     $CUSTOM_CMD
 fi
 
