@@ -29,8 +29,8 @@ RUN pip install --upgrade pip virtualenv
 USER postgres
 # configure the user for later. the service will be started in the entrypoint
 RUN  service postgresql start \
-&& psql -c "CREATE USER ctest WITH SUPERUSER PASSWORD 'coveragetest123';"&&\
-    createdb -O ctest ctest
+&& psql -c "CREATE USER db_admin WITH SUPERUSER PASSWORD '8935a847a2dbdcdd78181d6342733913';"&&\
+    createdb -O db_admin coverage_test
 USER root
 
 
