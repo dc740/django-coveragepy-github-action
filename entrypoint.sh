@@ -43,7 +43,7 @@ fi
 
 # Now get the coverage
 COVERAGE_RESULT=`coverage report | grep TOTAL | awk 'N=1 {print $NF}' | sed 's/%//g'`
-if [[ $COVERAGE_RESULT -gt $MIN_COVERAGE ]]; then
+if [[ $COVERAGE_RESULT -ge $MIN_COVERAGE ]]; then
     echo ::set-output name=coverage_result::$COVERAGE_RESULT
 else
     echo "#################################################"
